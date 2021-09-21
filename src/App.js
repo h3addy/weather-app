@@ -17,7 +17,7 @@ function App() {
         {/* <Jumbtron /> */}
         <Router>
           <Switch>
-            <Route exact path="" component={WeatherCity} />
+            <Route exact path="/" component={WeatherCity} />
             <Route component={Error} />
           </Switch>
         </Router>
