@@ -171,7 +171,7 @@ const WeatherCarousel = (props) => (
                 <p>To get the weather updates and forecast.</p>
                 <p>Search for any city and get the weather for</p>
                 <p> current day as well as the forecast for </p>
-                <p>3 days.</p>
+                <p>6 days.</p>
                 <a href="#search-container" rel="noreferrer">Search</a>
             </div>
             <Carousel> 
