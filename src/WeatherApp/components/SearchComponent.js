@@ -144,18 +144,23 @@ const SaerchComponent = () => {
                                 onChange={handleChange}
                                 readOnly
                             /> 
+                            <Button onClick={fetchWeather} variant="outline-primary" id="button-addon2" size="sm" disabled>
+                            &#128269;
+                            </Button>
                         </>:
-                        <FormControl
-                            placeholder="City Name"
-                            aria-label="City Name"
-                            aria-describedby="basic-addon2"
-                            onChange={handleChange}
-                            
-                        />
+                        <>
+                            <FormControl
+                                placeholder="City Name"
+                                aria-label="City Name"
+                                aria-describedby="basic-addon2"
+                                onChange={handleChange}
+                                
+                            />
+                            <Button onClick={fetchWeather} variant="outline-primary" id="button-addon2" size="sm">
+                            &#128269;
+                            </Button>
+                        </>
                     }
-                    <Button onClick={fetchWeather} variant="outline-primary" id="button-addon2" size="sm">
-                    &#128269;
-                    </Button>
                 </InputGroup>
                 <WeatherCard data={cityWeather}/>
             </div>

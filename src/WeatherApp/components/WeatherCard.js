@@ -61,18 +61,19 @@ const WCard = styled.div`
         .div-1 h1,
         .div-1 p{
             letter-spacing: 0.1rem;
+            margin-left: 1.5rem;
             
-            margin-left: 1rem;
         }
 
         .div-1 h1{
             margin-top: 1.5rem;
-            font-size: 1.5rem;
-            font-weight: 900;
+            font-size: 1rem;
+            font-weight: 700;
         }
         .div-1 p{
-            font-size: 1rem;
+            font-size: 0.8rem;
             font-weight: 400;
+            margin-bottom: 1rem;
         }
 
         .div-1 span{
@@ -171,6 +172,23 @@ const WCard = styled.div`
                 /* border-bottom: 1px solid rgba(0,0,0,0.5); */
             }
 
+            .div-1 h1,
+            .div-1 p{
+                letter-spacing: 0.1rem;
+                margin-left: 0.3rem;
+                
+            }
+
+            .div-1 h1{
+                margin-top: 1.5rem;
+                font-size: 1rem;
+                font-weight: 700;
+            }
+            .div-1 p{
+                font-size: 0.8rem;
+                font-weight: 400;
+                margin-bottom: 0.3rem;
+            }
 
 
 
@@ -258,7 +276,8 @@ const WeatherCard = (props) => {
                 <div className="weather-details">
                     <div className="div-1">
                     <h1>{city_name}</h1>
-                    <p>{current_text}, {current_temp}<span>&#x2103;</span></p>
+                    <p>{current_text}</p>
+                    <p>Temp: {current_temp}<span>&#x2103;</span></p>
                     <p>Wind: {current_wind}<span>kph</span></p>
                     <p>Humidity: {current_humidity}</p>
                     <svg width="100%" height="100%" viewBox="15 0 100 100">
