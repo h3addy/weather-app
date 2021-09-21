@@ -78,7 +78,7 @@ const SaerchComponent = () => {
     const local = ls.get('queryStatus')
     const defaultCity = local !== null ? local.city : queryExecuted.city
     const [cityName, setCityName ]= useState(defaultCity)
-    const [searched, setSearched ] = useState(false)
+    const [searched, setSearched ] = useState(local.status)
     const defaultWeather = useRef(true)
 
     // eslint-disable-next-line
