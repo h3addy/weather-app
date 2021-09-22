@@ -246,14 +246,21 @@ const WeatherCard = (props) => {
                     break;
                 }
             }
+            
             const le = a2.length
+            // console.log('1', a2)
             for(let i=ind+le; i<day_arr.length; i++){
-                // console.log(i)
-                a2.push({day: day_arr[i], temp: a2[i-le].temp})
+                const rand = Math.floor(Math.random() * le);
+                a2.push({day: day_arr[i], temp: a2[rand].temp})
             }
+
+            const me = a2.length
+            // console.log('2', a2)
             for(let i=0; i<ind; i++){
-                a2.push({day: day_arr[i], temp: a2[i].temp})
+                const rand = Math.floor(Math.random() * me);
+                a2.push({day: day_arr[i], temp: a2[rand].temp})
             }
+            // console.log('3',a2)
             return a2;
         }
 
