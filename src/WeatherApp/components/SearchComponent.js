@@ -73,7 +73,7 @@ const SearchContainer = styled.div `
 
 const SaerchComponent = () => {
         const [cityWeather, setCityWeather] = useState()
-        console.log(cityWeather)
+        // console.log(cityWeather)
         const [correctCity, setCorrectCity] = useState(true)
         const queryExecuted = {
             status: false,
@@ -137,7 +137,10 @@ const SaerchComponent = () => {
                     }
                         
                 })
-                .catch(err => console.log(err))
+                .catch(err => {
+                    // console.log(err)
+                    setSearched(false)
+                })
         }
 
         const handleChange = (e) => {
