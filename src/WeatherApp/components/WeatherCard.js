@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 
-const WCard = styled.div`
+const WCard = styled.div `
         margin: 0 auto;
         width: 400px;
         height: 300px;
@@ -224,7 +224,7 @@ const WCard = styled.div`
 `
 
 const WeatherCard = (props) => {
-    
+
     if (props.data === undefined) return <h1>Fetching data</h1>
     // else return <h1>Fetchde data</h1>
     else {
@@ -232,33 +232,45 @@ const WeatherCard = (props) => {
 
         const generateForecastDays = (dummy_arr) => {
             const day_arr = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-            let a2 = dummy_arr.map((eachDay)=>{
+            let a2 = dummy_arr.map((eachDay) => {
                 const day_no = new Date(eachDay.date).getDay()
                 const tempp = eachDay.day.avgtemp_c
-                return {day: day_arr[day_no], temp: tempp}
+                return {
+                    day: day_arr[day_no],
+                    temp: tempp
+                }
             })
 
             let ind = 0;
 
-            for(let i=0; i<day_arr.length-1;i++){
-                if (a2[0].day === day_arr[i]){
+            for (let i = 0; i < day_arr.length - 1; i++) {
+                if (a2[0].day === day_arr[i]) {
                     ind = i;
                     break;
                 }
             }
-            
+            // console.log(ind);
+            let newIndex = ind + 3;
             const le = a2.length
-            // console.log('1', a2)
-            for(let i=ind+le; i<day_arr.length; i++){
+            // console.log(1, a2)
+            for (let i = newIndex; i < day_arr.length; i++) {
+                console.log(i)
                 const rand = Math.floor(Math.random() * le);
-                a2.push({day: day_arr[i], temp: a2[rand].temp})
+                a2.push({
+                    day: day_arr[i],
+                    temp: a2[rand].temp
+                })
             }
-
-            const me = a2.length
             // console.log('2', a2)
-            for(let i=0; i<ind; i++){
+            
+            let newStartIndex = newIndex > 6 ? Math.abs(7 - newIndex) : 0;
+            const me = a2.length
+            for (let i = newStartIndex; i < ind; i++) {
                 const rand = Math.floor(Math.random() * me);
-                a2.push({day: day_arr[i], temp: a2[rand].temp})
+                a2.push({
+                    day: day_arr[i],
+                    temp: a2[rand].temp
+                })
             }
             // console.log('3',a2)
             return a2;
@@ -329,4 +341,3 @@ const WeatherCard = (props) => {
 }
 
 export default WeatherCard
-

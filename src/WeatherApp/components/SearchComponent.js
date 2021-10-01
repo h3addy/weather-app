@@ -1,4 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, {
+    useState,
+    useRef,
+    useEffect
+} from 'react'
 import styled from 'styled-components'
 import search_location from '../assets/search_location.svg'
 import InputGroup from 'react-bootstrap/InputGroup'
@@ -8,7 +12,7 @@ import WeatherCard from './WeatherCard'
 import axios from 'axios'
 import ls from 'localstorage-slim'
 
-const SearchContainer = styled.div`
+const SearchContainer = styled.div `
     margin: 0 auto;
     height: 100vh;
     display: flex;
@@ -68,62 +72,81 @@ const SearchContainer = styled.div`
 `
 
 const SaerchComponent = () => {
-    const [ cityWeather, setCityWeather ] = useState()
-    const queryExecuted = {
-        status: false,
-        city: 'Mumbai',
-        ttl: new Date().getTime()
-    }
-    
-    const local = ls.get('queryStatus')
-    const defaultCity = local !== null ? local.city : queryExecuted.city
-    const [cityName, setCityName ]= useState(defaultCity)
-    const [searched, setSearched ] = useState(local !== null ? local.status : false)
-    const defaultWeather = useRef(true)
+        const [cityWeather, setCityWeather] = useState()
+        console.log(cityWeather)
+        const [correctCity, setCorrectCity] = useState(true)
+        const queryExecuted = {
+            status: false,
+            city: 'Mumbai',
+            ttl: new Date().getTime()
+        }
 
-    // eslint-disable-next-line
-    useEffect(() => {
-        if(local === null){
-            ls.set('queryStatus', queryExecuted)    
-        } else {
-            const now = new Date()
-            if (now.getTime() - local.ttl === 3600000){
-                ls.set('queryStatus', {...queryExecuted, status: false, ttl: 600})
-                setSearched(false)
+        const local = ls.get('queryStatus')
+        const defaultCity = local !== null ? local.city : queryExecuted.city
+        const [cityName, setCityName] = useState(defaultCity)
+        const [searched, setSearched] = useState(local !== null ? local.status : false)
+        const defaultWeather = useRef(true)
+
+        // eslint-disable-next-line
+        useEffect(() => {
+            if (local === null) {
+                ls.set('queryStatus', queryExecuted)
+            } else {
+                const now = new Date()
+                if (now.getTime() - local.ttl >= 3600000) {
+                    ls.set('queryStatus', {
+                        ...queryExecuted,
+                        status: false,
+                        ttl: 600
+                    })
+                    setSearched(false)
+                }
             }
+
+            if (defaultWeather.current) {
+                fetchWeather()
+            }
+
+            return () => {
+                defaultWeather.current = false
+            }
+
+        })
+
+        // console.log('weather', cityWeather)
+
+        const fetchWeather = () => {
+            if (!defaultWeather.current) {
+                ls.set('queryStatus', {
+                    ...queryExecuted,
+                    status: true,
+                    city: cityName,
+                    ttl: new Date().getTime()
+                })
+                setSearched(true)
+            }
+
+            const API_KEY = '5f21e25c90e44e60859135245211809' //weather api key
+            axios.get(`https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${cityName}&days=7&aqi=no&alerts=no`)
+                .then(response => {
+                    if(response.data.location.name === cityName){
+                        setCityWeather(response.data)
+                        setCorrectCity(true)
+                    } else{
+                        setCorrectCity(false)
+                    }
+                        
+                })
+                .catch(err => console.log(err))
         }
 
-        if (defaultWeather.current){
-            fetchWeather()
+        const handleChange = (e) => {
+            setCityName(e.target.value)
         }
 
-        return () => {
-            defaultWeather.current = false
-        }
 
-    })
-    
-    // console.log('weather', cityWeather)
-    
-    const fetchWeather = () => {
-        if(!defaultWeather.current) {
-            ls.set('queryStatus', {...queryExecuted, status: true, city: cityName, ttl: new Date().getTime()})
-            setSearched(true)
-        }
 
-        const API_KEY = '5f21e25c90e44e60859135245211809' //weather api key
-        axios.get(`https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${cityName}&days=7&aqi=no&alerts=no`)
-        .then(response => setCityWeather(response.data))
-        .catch(err => console.log(err))
-    }
-
-    const handleChange = (e) => {
-        setCityName(e.target.value)
-    }
-
-    
-
-    return (
+        return (
         <SearchContainer id='search-container'>
             
             <div className="img-container">
@@ -135,7 +158,7 @@ const SaerchComponent = () => {
             </div>
             <div className="search-wrapper">
                 <InputGroup className="mt-2 mb-2" size="sm">
-                    { searched ?
+                    { searched && correctCity ?
                         <>
                             <FormControl
                                 placeholder="You can search after 1 hour."
@@ -162,7 +185,8 @@ const SaerchComponent = () => {
                         </>
                     }
                 </InputGroup>
-                <WeatherCard data={cityWeather}/>
+                { correctCity ? <WeatherCard data={cityWeather}/> : <h6><span style={{ color: "red"}}>OOPS!</span> The city you searched for does not exist in our database.</h6>}
+                {/* <WeatherCard data={cityWeather}/> */}
             </div>
         </SearchContainer>
     )
